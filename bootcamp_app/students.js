@@ -18,14 +18,16 @@ const queryString = `
 //$1 and $2 are the new placeholders from terminal line
 
 const cohortName = process.argv[2];
+//OR 5 in case argument for max is not provided in terminal
 const limit = process.argv[3] || 5;
+
 //store all potentially malicious values in an array
 const values = [`%${cohortName}%`, limit];
 
 //function that accepts SQL query as a JS string
 //returns a promise that contains our result when query is successful
 pool.query(queryString, values)
-//^^ OR 5 in case argument for max is not provided in terminal
+
 //result is an array of JS objects
   .then(res => {
     res.rows.forEach(user => {
@@ -33,4 +35,5 @@ pool.query(queryString, values)
     // console.log(res.rows);
     });
   })
+  //example, if incorrect SELECT syntax used
   .catch(err => console.error('query error', err.stack));
